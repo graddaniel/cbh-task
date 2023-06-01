@@ -9,3 +9,6 @@ You've been asked to refactor the function `deterministicPartitionKey` in [`dpk.
 You will be graded on the exhaustiveness and quality of your unit tests, the depth of your refactor, and the level of insight into your thought process provided by the written explanation.
 
 ## Your Explanation Here
+
+I have renamed variables and function names to reflect what they actually do/store. I have extracted common logic (hashing), to avoid code duplication. I have put the constants at the beginning of the file, not to pollute the logic with such definitions. I have flattened the code, which makes it easier to understand. I have reordered the code to return early if certain conditions are satisfied to avoid unneccesary code execution, or to cover "unhappy paths". I have got rid of variables overwriting to avoid confusion about what they contain/represent. I've used ternary operator to flatten and simplify conditions resulting in assignment.
+Finally I would also like to refactor the unit tests to fit the new code (maybe that's not neccesary), but I don't have anough time.
