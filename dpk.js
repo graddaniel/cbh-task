@@ -8,21 +8,21 @@ const TRIVIAL_PARTITION_KEY = "0";
 const MAX_PARTITION_KEY_LENGTH = 256;
 
 exports.createDeterministicPartitionKey = (input) => {
-  let candidate;
-
   if (!input) {
     return TRIVIAL_PARTITION_KEY;
   }
 
-  if (input.partitionKey) {
-    candidate = input.partitionKey;
+  let candidate;
+  const { partitionKey } = input;
+  if (partitionKey) {
+    candidate = partitionKey;
+
+    if (typeof candidate !== "string") {
+      candidate = JSON.stringify(candidate);
+    }
   } else {
     const data = JSON.stringify(input);
     candidate = createHash(data);
-  }
-
-  if (typeof candidate !== "string") {
-    candidate = JSON.stringify(candidate);
   }
 
   if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
