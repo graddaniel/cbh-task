@@ -17,10 +17,9 @@ exports.createDeterministicPartitionKey = (input) => {
     return createHash(JSON.stringify(input));
   }
 
-  candidate = partitionKey;
-  if (typeof candidate !== "string") {
-    candidate = JSON.stringify(candidate);
-  }
+  let candidate = typeof partitionKey !== "string"
+    ? JSON.stringify(partitionKey)
+    : partitionKey;
 
   if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
     candidate = createHash(candidate);
