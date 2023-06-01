@@ -7,14 +7,14 @@ function createHash (data) {
 const TRIVIAL_PARTITION_KEY = "0";
 const MAX_PARTITION_KEY_LENGTH = 256;
 
-exports.createDeterministicPartitionKey = (event) => {
+exports.createDeterministicPartitionKey = (input) => {
   let candidate;
 
-  if (event) {
-    if (event.partitionKey) {
-      candidate = event.partitionKey;
+  if (input) {
+    if (input.partitionKey) {
+      candidate = input.partitionKey;
     } else {
-      const data = JSON.stringify(event);
+      const data = JSON.stringify(input);
       candidate = createHash(data);
     }
   }
