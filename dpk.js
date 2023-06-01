@@ -12,14 +12,14 @@ exports.createDeterministicPartitionKey = (input) => {
     return TRIVIAL_PARTITION_KEY;
   }
 
-  const { partitionKey } = input;
-  if (!partitionKey) {
+  const { partitionKey: inputPartitionKey } = input;
+  if (!inputPartitionKey) {
     return createHash(JSON.stringify(input));
   }
 
-  const partitionKeyCandidate = typeof partitionKey !== "string"
-    ? JSON.stringify(partitionKey)
-    : partitionKey;
+  const partitionKeyCandidate = typeof inputPartitionKey !== "string"
+    ? JSON.stringify(inputPartitionKey)
+    : inputPartitionKey;
 
   if (partitionKeyCandidate.length > MAX_PARTITION_KEY_LENGTH) {
     return createHash(partitionKeyCandidate);
