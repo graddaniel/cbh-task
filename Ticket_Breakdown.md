@@ -16,3 +16,26 @@ Based on the information given, break this ticket down into 2-5 individual ticke
 You will be graded on the level of detail in each ticket, the clarity of the execution plan within and between tickets, and the intelligibility of your language. You don't need to be a native English speaker, but please proof-read your work.
 
 ## Your Breakdown Here
+
+Naming convention:
+agentId - internal database id of an Agent
+facilityCustomAgentId - new custom id
+
+1. Create `Facilities_AgentIds` table with agentId, facilityId, and facilityCustomAgentId columns, with a unique key on (agentId, facilityId).
+
+The table will store the Agent's custom ID at the Facility.
+
+2. Create `createOrUpdateFacilityAgentId` function, which will take facilityId, agentId and facilityCustomAgentId as input and will put a new row (or update existing one) in the `Facilities_AgentIds` table.
+
+The function will be used by the Facilities to define their own custom id of each agent.
+
+3. Check if the agentId at Shifts returned from `getShiftsByFacility` is used anywhere else in the code. If yes then modify the function to return facilityCustomAgentId in addition to agentId, if not then replace agentId with facilityCustomAgentId.
+Table `Facilities_AgentIds` stores facilityCustomAgentId for each pair of Facility and Agent. Use the agentId present in the Shifts metadata and the facilityId passed as input to find the facilityCustomAgentId.
+
+The internal ID is an implementation detail, thus it should not propagate to the business logic layer, which is the reason for ID removal (if no longer used).
+
+This change may break the functionality if shipped alone, thus make sure it's deployed together with, or after tasks 1 & 2, and together with task 4 (assuming that the id will have been removed).
+
+4. Modify `generateReport` to use facilityCustomAgentId instead of agentId, obtained from Shifts metadata.
+
+This change may break the functionality if shipped alone, thus make sure it's deployed together with, or after tasks 1 & 2, and together with task 3 (assuming that the id will have been removed).
